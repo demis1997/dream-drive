@@ -52,46 +52,74 @@ function Logo({ onClick, size = 30 }) {
 /* ---- Top navigation ---- */
 function Nav({ route, go }) {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => { setMenuOpen(false); }, [route]);
+
   const links = [
     { id: "home", label: "The Car" },
     { id: "draw", label: "The Draw" },
     { id: "winners", label: "Winners" },
   ];
+
+  const navigate = (id) => {
+    setMenuOpen(false);
+    go(id);
+  };
+
   return (
-    <header style={{
-      position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-      transition: "background 0.4s var(--ease), border-color 0.4s, backdrop-filter 0.4s",
-      background: scrolled ? "oklch(0.145 0.008 260 / 0.82)" : "transparent",
-      backdropFilter: scrolled ? "blur(14px) saturate(1.2)" : "none",
-      borderBottom: `1px solid ${scrolled ? "var(--line)" : "transparent"}`,
-    }}>
-      <div className="wrap" style={{
-        height: 76, display: "flex", alignItems: "center", justifyContent: "space-between",
+    <>
+      <header style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
+        transition: "background 0.4s var(--ease), border-color 0.4s, backdrop-filter 0.4s",
+        background: scrolled || menuOpen ? "oklch(0.145 0.008 260 / 0.82)" : "transparent",
+        backdropFilter: scrolled || menuOpen ? "blur(14px) saturate(1.2)" : "none",
+        borderBottom: `1px solid ${scrolled || menuOpen ? "var(--line)" : "transparent"}`,
       }}>
-        <Logo onClick={() => go("home")} />
-        <nav style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          {links.map((l) => (
-            <button key={l.id} onClick={() => go(l.id)}
-              style={{
-                fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.14em",
-                textTransform: "uppercase", padding: "10px 16px", borderRadius: 2, whiteSpace: "nowrap",
-                color: route === l.id ? "var(--text)" : "var(--muted)",
-                transition: "color 0.2s",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = route === l.id ? "var(--text)" : "var(--muted)")}
-            >{l.label}</button>
-          ))}
-          <button className="btn btn--primary" style={{ height: 44, marginLeft: 14, padding: "0 22px" }}
-            onClick={() => go("entry")}>Enter Now</button>
-        </nav>
+        <div className="wrap" style={{
+          height: 76, display: "flex", alignItems: "center", justifyContent: "space-between",
+        }}>
+          <Logo onClick={() => navigate("home")} />
+          <nav className="nav-links">
+            {links.map((l) => (
+              <button key={l.id} onClick={() => navigate(l.id)}
+                style={{
+                  fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.14em",
+                  textTransform: "uppercase", padding: "10px 16px", borderRadius: 2, whiteSpace: "nowrap",
+                  color: route === l.id ? "var(--text)" : "var(--muted)",
+                  transition: "color 0.2s",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = route === l.id ? "var(--text)" : "var(--muted)")}
+              >{l.label}</button>
+            ))}
+            <button className="btn btn--primary" style={{ height: 44, marginLeft: 14, padding: "0 22px" }}
+              onClick={() => navigate("entry")}>Enter Now</button>
+          </nav>
+          <button
+            className="nav-toggle"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((o) => !o)}
+          >{menuOpen ? "✕" : "☰"}</button>
+        </div>
+      </header>
+
+      <div className={`nav-mobile-panel ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}>
+        {links.map((l) => (
+          <button key={l.id} onClick={() => navigate(l.id)}
+            style={{ color: route === l.id ? "var(--text)" : "var(--muted)" }}
+          >{l.label}</button>
+        ))}
+        <button className="btn btn--primary" onClick={() => navigate("entry")}>Enter Now</button>
       </div>
-    </header>
+    </>
   );
 }
 
@@ -118,29 +146,16 @@ function Countdown({ target, size = "lg" }) {
   const units = [
     { v: d, l: "Days" }, { v: h, l: "Hrs" }, { v: m, l: "Min" }, { v: s, l: "Sec" },
   ];
-  const big = size === "lg";
   const pad = (n) => String(n).padStart(2, "0");
   return (
-    <div style={{ display: "flex", alignItems: "stretch", gap: big ? 14 : 8 }}>
+    <div className={`countdown countdown--${size}`}>
       {units.map((u, i) => (
         <React.Fragment key={u.l}>
-          <div style={{ textAlign: "center", minWidth: big ? 84 : 54 }}>
-            <div className="mono" style={{
-              fontVariantNumeric: "tabular-nums", fontWeight: 700,
-              fontSize: big ? 52 : 30, lineHeight: 1, color: "var(--text)",
-              letterSpacing: "-0.02em",
-            }}>{pad(u.v)}</div>
-            <div className="mono" style={{
-              fontSize: big ? 11 : 9, letterSpacing: "0.28em", textTransform: "uppercase",
-              color: "var(--faint)", marginTop: big ? 12 : 8,
-            }}>{u.l}</div>
+          <div className="countdown__unit">
+            <div className="countdown__num mono">{pad(u.v)}</div>
+            <div className="countdown__label">{u.l}</div>
           </div>
-          {i < units.length - 1 && (
-            <div className="mono" style={{
-              fontSize: big ? 40 : 24, color: "var(--accent)", alignSelf: "flex-start",
-              lineHeight: big ? "52px" : "30px", opacity: 0.55,
-            }}>:</div>
-          )}
+          {i < units.length - 1 && <div className="countdown__sep">:</div>}
         </React.Fragment>
       ))}
     </div>
@@ -241,10 +256,7 @@ function Footer({ go }) {
   return (
     <footer className="carbon" style={{ borderTop: "1px solid var(--line)", paddingTop: 80, paddingBottom: 48 }}>
       <div className="wrap">
-        <div style={{
-          display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr 1.2fr", gap: 48,
-          paddingBottom: 64,
-        }}>
+        <div className="grid-footer" style={{ paddingBottom: 64 }}>
           <div>
             <Logo onClick={() => go("home")} />
             <p style={{ color: "var(--muted)", fontSize: 15, marginTop: 20, maxWidth: 300 }}>

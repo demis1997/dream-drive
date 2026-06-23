@@ -48,7 +48,7 @@ function SpecAnatomy() {
       ))}
 
       {/* callout card */}
-      <div style={{
+      <div className="spec-anatomy__callout" style={{
         position: "absolute", left: 24, bottom: 24, zIndex: 4,
         background: "oklch(0.145 0.008 260 / 0.78)", backdropFilter: "blur(10px)",
         border: "1px solid var(--line-2)", borderRadius: 4, padding: "16px 20px",
@@ -107,7 +107,7 @@ function AngleSwitcher() {
           style={arrowStyle("right")}>›</button>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: `repeat(${ANGLES.length}, 1fr)`, gap: 10, marginTop: 12 }}>
+      <div className="angle-thumbs" style={{ gridTemplateColumns: `repeat(${ANGLES.length}, 1fr)` }}>
         {ANGLES.map((ang, i) => (
           <button key={ang.id} onClick={() => setIdx(i)}
             style={{
@@ -146,7 +146,7 @@ function arrowStyle(side) {
 function SpecGrid() {
   const { SPECS } = window.DD;
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1, background: "var(--line)", border: "1px solid var(--line)", borderRadius: 4, overflow: "hidden" }}>
+    <div className="spec-grid grid-panel">
       {SPECS.map((s) => (
         <div key={s.k} className="reveal" style={{ background: "var(--bg-2)", padding: "32px 28px" }}>
           <div className="mono" style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--faint)" }}>{s.k}</div>

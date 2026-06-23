@@ -11,7 +11,7 @@ function HowItWorks() {
         <h2 className="display reveal" style={{ fontSize: "clamp(32px, 4vw, 56px)", marginBottom: 56, maxWidth: 720 }}>
           From £29 to the<br />driver's seat in four steps.
         </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 1, background: "var(--line)", border: "1px solid var(--line)", borderRadius: 4, overflow: "hidden" }}>
+        <div className="grid-4 grid-panel">
           {STEPS.map((s) => (
             <div key={s.n} className="reveal" style={{ background: "var(--bg-2)", padding: "34px 28px", position: "relative" }}>
               <div className="mono" style={{ fontSize: 13, color: "var(--accent)", letterSpacing: "0.1em" }}>{s.n}</div>
@@ -31,7 +31,7 @@ function TrustBand() {
   return (
     <section className="carbon" style={{ borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)", padding: "100px 0" }}>
       <div className="wrap">
-        <div style={{ display: "grid", gridTemplateColumns: "0.8fr 1.2fr", gap: 64, alignItems: "start" }}>
+        <div className="grid-2 grid-2--asym-08" style={{ alignItems: "start" }}>
           <div className="reveal" style={{ position: "sticky", top: 110 }}>
             <span className="kicker">Transparency</span>
             <h2 className="display" style={{ fontSize: "clamp(30px, 3.4vw, 48px)", margin: "22px 0 20px" }}>
@@ -42,7 +42,7 @@ function TrustBand() {
               keeps the draw fair and your entry protected.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: "var(--line)", border: "1px solid var(--line)", borderRadius: 4, overflow: "hidden" }}>
+          <div className="grid-2 grid-panel">
             {TRUST.map((t, i) => (
               <div key={t.k} className="reveal" style={{ background: "var(--bg-2)", padding: "34px 32px" }}>
                 <div style={{ width: 30, height: 30, borderRadius: 3, border: "1px solid var(--accent-line)", display: "grid", placeItems: "center", color: "var(--accent)", fontFamily: "var(--mono)", fontSize: 12, marginBottom: 22 }}>
@@ -90,10 +90,10 @@ function FAQSection() {
 function DrawHeader({ go }) {
   const { DRAW } = window.DD;
   return (
-    <section style={{ paddingTop: 130, paddingBottom: 80 }}>
+    <section className="page-view" style={{ paddingTop: 130, paddingBottom: 80 }}>
       <div className="wrap">
         <div className="eyebrow-row reveal"><span className="kicker">{DRAW.edition} · The Draw</span></div>
-        <div style={{ display: "grid", gridTemplateColumns: "1.3fr 0.9fr", gap: 64, alignItems: "start" }}>
+        <div className="grid-2 grid-2--asym-13" style={{ alignItems: "start" }}>
           <div>
             <h1 className="display reveal" style={{ fontSize: "clamp(40px, 5.6vw, 88px)" }}>
               Audi RS6<br /><span className="silver-text">Mansory</span>
@@ -102,7 +102,7 @@ function DrawHeader({ go }) {
               {DRAW.sub}. A 1,000 PS statement in forged carbon, finished in Mansory's signature
               gloss black on lime. Valued at {DRAW.valuation} — yours from £{DRAW.ticketPrice}.
             </p>
-            <div className="reveal" style={{ display: "flex", gap: 24, marginTop: 36, flexWrap: "wrap" }}>
+            <div className="reveal draw-metrics">
               {[["Valuation", DRAW.valuation], ["Cash alternative", DRAW.cashAlt], ["Your odds", DRAW.odds], ["Delivery", "Free, UK-wide"]].map(([k, v]) => (
                 <div key={k} style={{ paddingRight: 24, borderRight: "1px solid var(--line)" }}>
                   <div className="mono" style={{ fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--faint)" }}>{k}</div>

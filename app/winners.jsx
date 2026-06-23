@@ -5,13 +5,12 @@
 function WinnerStory({ w, idx }) {
   const flip = idx % 2 === 1;
   return (
-    <div className="reveal" style={{
-      display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0,
+    <div className={`reveal winner-story ${flip ? "winner-story--flip" : ""}`} style={{
       border: "1px solid var(--line)", borderRadius: 6, overflow: "hidden",
       background: "var(--bg-2)",
     }}>
       {/* media */}
-      <div style={{ position: "relative", minHeight: 420, order: flip ? 2 : 1 }}>
+      <div className="winner-story__media">
         <image-slot id={w.slot} style={{ width: "100%", height: "100%", position: "absolute", inset: 0 }} shape="rect" fit="cover" placeholder={`${w.name} — handover photo`} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, oklch(0.145 0.008 260 / 0.5), transparent 50%)", pointerEvents: "none" }} />
         {w.video && (
@@ -23,7 +22,7 @@ function WinnerStory({ w, idx }) {
       </div>
 
       {/* story */}
-      <div style={{ padding: "48px 48px", display: "flex", flexDirection: "column", justifyContent: "center", order: flip ? 1 : 2 }}>
+      <div className="winner-story__body">
         <div className="mono" style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--accent)" }}>{w.edition}</div>
         <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginTop: 16, flexWrap: "wrap" }}>
           <h3 className="display" style={{ fontSize: "clamp(26px, 2.6vw, 38px)" }}>{w.name}</h3>
@@ -44,7 +43,7 @@ function WinnerStory({ w, idx }) {
 function WinnersHero() {
   const { STATS } = window.DD;
   return (
-    <section style={{ paddingTop: 140, paddingBottom: 70 }}>
+    <section className="page-view" style={{ paddingTop: 140, paddingBottom: 70 }}>
       <div className="wrap">
         <div className="eyebrow-row reveal"><span className="kicker">Hall of Fame</span></div>
         <h1 className="display reveal" style={{ fontSize: "clamp(44px, 6.5vw, 100px)", maxWidth: 980 }}>
@@ -74,7 +73,7 @@ function SocialWall() {
       <div className="wrap">
         <div className="eyebrow-row reveal"><span className="kicker">From the community</span></div>
         <h2 className="display reveal" style={{ fontSize: "clamp(28px, 3.2vw, 46px)", marginBottom: 44 }}>Tagged #DriveDraw</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+        <div className="grid-3">
           {SOCIAL.map((s) => (
             <div key={s.handle} className="reveal card" style={{ overflow: "hidden" }}>
               <div style={{ position: "relative", aspectRatio: "1 / 1" }}>

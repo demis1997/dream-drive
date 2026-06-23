@@ -17,7 +17,7 @@ const QUIZ = {
 
 function Stepper({ step, steps }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: 52 }}>
+    <div className="entry-stepper" style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: 52 }}>
       {steps.map((s, i) => (
         <React.Fragment key={s}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -63,7 +63,7 @@ function StepTickets({ qty, setQty }) {
       <h2 className="display" style={{ fontSize: 32, marginBottom: 10 }}>How many entries?</h2>
       <p style={{ color: "var(--muted)", fontSize: 15.5, marginBottom: 36 }}>Each ticket is a unique number in the draw. More tickets, better odds. Capped at {DRAW.maxPerPerson} per person.</p>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 32 }}>
+      <div className="bundle-grid">
         {BUNDLES.map((b) => {
           const on = qty === b.qty;
           return (
@@ -104,7 +104,7 @@ function StepQuiz({ pick, setPick }) {
       <h2 className="display" style={{ fontSize: 32, marginBottom: 10 }}>The skill question</h2>
       <p style={{ color: "var(--muted)", fontSize: 15.5, marginBottom: 36 }}>A correct answer qualifies your entry under UK prize-competition law. The answer is on the car's spec sheet.</p>
       <div style={{ fontWeight: 600, fontSize: 19, marginBottom: 24, maxWidth: 560 }}>{QUIZ.q}</div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div className="quiz-grid">
         {QUIZ.options.map((o, i) => {
           const on = pick === i;
           return (
@@ -131,7 +131,7 @@ function StepDetails({ form, setForm }) {
     <div>
       <h2 className="display" style={{ fontSize: 32, marginBottom: 10 }}>Your details</h2>
       <p style={{ color: "var(--muted)", fontSize: 15.5, marginBottom: 36 }}>We only need this to contact you if you win and arrange handover. 18+ only.</p>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+      <div className="grid-2 grid-2--18">
         <Field label="First name" placeholder="Alex" value={form.first} onChange={set("first")} />
         <Field label="Last name" placeholder="Mercer" value={form.last} onChange={set("last")} />
         <Field label="Email" type="email" placeholder="you@email.com" value={form.email} onChange={set("email")} />
@@ -156,7 +156,7 @@ function StepPayment({ form, setForm }) {
       <div style={{ display: "grid", gap: 18 }}>
         <Field label="Cardholder name" placeholder="Alex Mercer" value={form.card} onChange={set("card")} />
         <Field label="Card number" placeholder="4242 4242 4242 4242" value={form.num} onChange={set("num")} />
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+        <div className="grid-2 grid-2--18">
           <Field label="Expiry" placeholder="MM / YY" value={form.exp} onChange={set("exp")} />
           <Field label="CVC" placeholder="123" value={form.cvc} onChange={set("cvc")} />
         </div>
@@ -269,7 +269,7 @@ function EntryView({ go }) {
 
   if (done) {
     return (
-      <div style={{ paddingTop: 140, paddingBottom: 100 }}>
+      <div className="entry-view" style={{ paddingTop: 140, paddingBottom: 100 }}>
         <div className="wrap" style={{ maxWidth: 760 }}>
           <Confirmation qty={qty} go={go} ticketNos={ticketNos.current} />
         </div>
@@ -278,10 +278,10 @@ function EntryView({ go }) {
   }
 
   return (
-    <div style={{ paddingTop: 130, paddingBottom: 100 }}>
+    <div className="entry-view" style={{ paddingTop: 130, paddingBottom: 100 }}>
       <div className="wrap">
         <div className="eyebrow-row"><span className="kicker">Enter the Draw · {DRAW.edition}</span></div>
-        <div style={{ display: "grid", gridTemplateColumns: "1.5fr 0.8fr", gap: 56, alignItems: "start" }}>
+        <div className="grid-2 grid-2--asym-15" style={{ alignItems: "start" }}>
           <div>
             <Stepper step={step} steps={STEPS} />
             {step === 0 && <StepTickets qty={qty} setQty={setQty} />}
@@ -291,7 +291,7 @@ function EntryView({ go }) {
 
             {err && <div className="mono" style={{ marginTop: 24, color: "oklch(0.7 0.18 25)", fontSize: 13, letterSpacing: "0.04em" }}>⚠ {err}</div>}
 
-            <div style={{ display: "flex", gap: 14, marginTop: 40 }}>
+            <div className="stack-buttons" style={{ marginTop: 40 }}>
               {step > 0 && <button className="btn btn--ghost" onClick={() => setStep((s) => s - 1)}>← Back</button>}
               <button className="btn btn--primary" style={{ flex: 1 }} onClick={next} disabled={processing}>
                 {processing ? "Processing…" : step === 3 ? `Pay £${(qty * DRAW.ticketPrice).toLocaleString("en-GB")} →` : "Continue →"}

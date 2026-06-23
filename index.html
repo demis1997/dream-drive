@@ -1,1 +1,42 @@
-DriveDraw.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1b20" />
+  <title>DriveDraw — Drive the Extraordinary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="app/styles.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script src="assets/nextimg.js"></script>
+</head>
+<body class="carbon">
+  <div id="loader" class="loader" aria-live="polite" aria-busy="true">
+    <div class="loader__grain" aria-hidden="true"></div>
+    <div class="loader__glow" aria-hidden="true"></div>
+    <div class="loader__content">
+      <div class="loader__mark" aria-hidden="true"></div>
+      <div class="loader__brand">Drive<span>Draw</span></div>
+      <div class="loader__track" aria-hidden="true"><div class="loader__bar"></div></div>
+      <div class="loader__status">Preparing your draw…</div>
+    </div>
+  </div>
+
+  <div id="root"></div>
+
+  <script src="app/image-slot.js"></script>
+  <script src="app/data.js"></script>
+  <script type="text/babel" src="app/tweaks-panel.jsx"></script>
+  <script type="text/babel" src="app/components.jsx"></script>
+  <script type="text/babel" src="app/car.jsx"></script>
+  <script type="text/babel" src="app/home.jsx"></script>
+  <script type="text/babel" src="app/draw.jsx"></script>
+  <script type="text/babel" src="app/winners.jsx"></script>
+  <script type="text/babel" src="app/entry.jsx"></script>
+  <script type="text/babel" src="app/app.jsx"></script>
+</body>
+</html>

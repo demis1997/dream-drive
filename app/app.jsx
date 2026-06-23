@@ -27,11 +27,31 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "glow": 1
 }/*EDITMODE-END*/;
 
+function dismissLoader() {
+  const loader = document.getElementById("loader");
+  if (!loader) return;
+  loader.classList.add("loader--out");
+  loader.setAttribute("aria-busy", "false");
+  window.setTimeout(() => loader.remove(), 750);
+}
+
 function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [route, setRoute] = useState("home");
 
   const go = useCallback((r) => { setRoute(r); window.scrollTo(0, 0); }, []);
+
+  useEffect(() => {
+    const minTime = new Promise((resolve) => window.setTimeout(resolve, 2000));
+    const fonts = document.fonts?.ready ?? Promise.resolve();
+    const hero = new Image();
+    hero.src = "assets/rs6-hero.jpg";
+    const heroReady = new Promise((resolve) => {
+      if (hero.complete) resolve();
+      else { hero.onload = resolve; hero.onerror = resolve; }
+    });
+    Promise.all([minTime, fonts, heroReady]).then(dismissLoader);
+  }, []);
 
   // apply accent theme + glow
   useEffect(() => { applyAccent(t.accent, t.glow); }, [t.accent, t.glow]);
